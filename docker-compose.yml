@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  postgrest:
+    image: postgrest/postgrest
+    container_name: "postgrest"
+    env_file: ${PWD}/.env
+    networks:
+      - web
+    ports:
+      - 3426:3426
+    depends_on:
+      - postgres
+
+  postgres:
+    working_dir: /usr/app
+    volumes:
+        - ./data/postgres_data:/var/lib/postgresql/data
+    image: 'postgres:11.18-alpine'
+    environment:
+      POSTGRES_USER: codebaseuser
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB : codebasedb
+      PG_VERSION: '11.18-alpine'
+    ports:
+        - "5432:5432"
+    networks:
+      - web
+
+networks:
+  web:
+    driver: bridge

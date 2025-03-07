@@ -24,9 +24,25 @@ insert into datamart.peoples (name) values
 create role web_anon nologin;
 
 grant usage on schema api to web_anon;
+
+-- grant to specific tables
 grant select, insert, update, delete on api.todos to web_anon;
 
+-- grant to all tables
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA api TO web_anon; 
+
+-- Ensures future tables also have the same privileges
+ALTER DEFAULT PRIVILEGES IN SCHEMA api GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO web_anon;
+
 grant usage on schema datamart to web_anon;
+
+-- grant to specific tables
 grant select, insert, update, delete on datamart.peoples to web_anon;
+
+-- grant to all tables
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA datamart TO web_anon; 
+
+-- Ensures future tables also have the same privileges
+ALTER DEFAULT PRIVILEGES IN SCHEMA datamart GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO web_anon;
 
 NOTIFY pgrst, 'reload schema';

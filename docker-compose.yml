@@ -1,14 +1,24 @@
 version: '3'
 
 services:
-  postgrest:
+  postgrest_db1:
     image: postgrest/postgrest
-    container_name: "postgrest"
-    env_file: ${PWD}/.env
+    container_name: "postgrest_db1"
+    env_file: ${PWD}/db1.env
     networks:
       - web
     ports:
       - 3426:3426
+    depends_on:
+      - postgres
+  postgrest_db2:
+    image: postgrest/postgrest
+    container_name: "postgrest_db2"
+    env_file: ${PWD}/db2.env
+    networks:
+      - web
+    ports:
+      - 3427:3427
     depends_on:
       - postgres
 
